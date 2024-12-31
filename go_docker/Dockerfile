@@ -10,25 +10,16 @@ WORKDIR /usr/src/app
 COPY . .
 
 # Build the Go application (in release mode, optimally)
-RUN go mod tidy && CGO_ENABLED=0 go build -a --installsuffix cgo -o go_docker .
+RUN go mod tidy
+RUN GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -ldflags "-s -w" -o go_docker .
 
 # =======================================================================================
-# Stage (Runtime): Apps Image
+# Stage 2: Runtime — Create a minimal image for the `Application`
 # =======================================================================================
-FROM busybox:latest
+FROM scratch
 
-# Copy the built Go binary from the builder stage
-COPY --from=builder /usr/src/app/go_docker .
+# Copy the statically compiled binary from the builder stage into the runtime image
+COPY --from=builder /usr/src/app/go_docker ./app
 
-# =======================================================================================
-# Stage (Clean-Up): Remove unnecessary files in the runtime image
-# =======================================================================================
-RUN rm -rf /usr/share/man /usr/share/doc /usr/share/info /tmp/* /var/cache/apk/* /root/.cache/* /var/log/*
-
-# =======================================================================================
-# Start App
-# =======================================================================================
-
-# Set the command to run the binary (replace with your binary name)
-CMD ["./go_docker"]
-
+# Specify the command to execute the binary when the container runs
+CMD ["/app"]

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Discover — HTML, CSS, and JavaScript</title>
+    <style>
+      /* Global Styles */
+      body {
+        font-family: "Arial", sans-serif;
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(135deg, #6a11cb, #2575fc);
+        color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      /* Header Styles */
+      h1 {
+        font-size: 3em;
+        margin-bottom: 0.5em;
+      }
+
+      p {
+        font-size: 1.2em;
+        margin-bottom: 1.5em;
+        text-align: center;
+        max-width: 600px;
+      }
+
+      /* Button Styles */
+      button {
+        background: white;
+        color: #2575fc;
+        border: none;
+        padding: 0.8em 1.5em;
+        font-size: 1em;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+      }
+
+      button:hover {
+        transform: scale(1.1);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      code {
+        color: #f06292;
+      }
+
+      /* Footer Styles */
+      footer {
+        position: absolute;
+        bottom: 20px;
+        font-size: 0.9em;
+        color: rgba(255, 255, 255, 0.7);
+      }
+    </style>
+    <script>
+      function showMessage() {
+        // Create and Display a dynamic message
+        const message = document.createElement("div");
+        message.textContent = "You just used JavaScript!";
+        message.style.position = "fixed";
+        message.style.top = "50%";
+        message.style.left = "50%";
+        message.style.transform = "translate(-50%, -50%)";
+        message.style.background = "white";
+        message.style.color = "#2575fc";
+        message.style.padding = "1em 2em";
+        message.style.borderRadius = "10px";
+        message.style.boxShadow = "0 4px 10px rgba(0, 0, 0, 0.2)";
+        message.style.fontSize = "1.2em";
+        message.style.textAlign = "center";
+        message.style.zIndex = "1000";
+
+        // Append the message
+        document.body.appendChild(message);
+
+        // Remove the message after 3 seconds
+        setTimeout(() => {
+          document.body.removeChild(message);
+        }, 2000);
+      }
+    </script>
+  </head>
+  <body>
+    <h1>Welcome to Web Development with Nginx</h1>
+    <p>
+      Explore — <code>HTML</code>, <code>CSS</code>, and
+      <code>JavaScript</code>.
+    </p>
+    <p>
+      This page demonstrates the use of these
+      <strong>core</strong> technologies: <strong>HTML</strong> for structure,
+      <strong>CSS</strong> for styling, and <strong>JavaScript</strong> for
+      interactivity.
+    </p>
+    <p>Click the <code>button</code> below to see JavaScript in action!</p>
+    <button onclick="showMessage()">Click Me!</button>
+    <footer>Created with ❤️ by a curious mind</footer>
+  </body>
+</html>

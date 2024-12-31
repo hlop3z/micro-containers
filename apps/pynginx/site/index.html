@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Discover — HTML, CSS, and JavaScript</title>
+
+    <!-- Style and Script -->
+    <link href="./static/style.css" rel="stylesheet" type="text/css" />
+    <script src="./static/script.js"></script>
+
+    <!-- Xtyle CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/xtyle-css@latest" />
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="lt">Header</header>
+
+    <!-- Main -->
+    <main class="lm lc-l lc-r lc-t lc-b">
+      <!-- HyperLink -->
+      <h1>Web Applications with Nginx</h1>
+      <a href="devs">Go Devs</a>
+    </main>
+
+    <!-- Drawers -->
+    <aside class="ll lc-t lc-b ld open ta-r">Left</aside>
+    <aside class="lr lc-t lc-b ld open">Right</aside>
+
+    <!-- Drawers (mini) -->
+    <aside class="ll lc-t lc-b ld mini open">Left-Mini</aside>
+    <aside class="lr lc-t lc-b ld mini open">Right-Mini</aside>
+
+    <!-- Footer -->
+    <footer class="lb">Footer</footer>
+
+    <!-- Application -->
+    <script>
+      var GUI = {
+        go(newPath) {
+          document.location.href = newPath;
+        },
+      };
+
+      // GUI.go("./views/devs.html");
+    </script>
+  </body>
+</html>

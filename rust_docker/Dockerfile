@@ -1,46 +1,30 @@
 # =======================================================================================
-# Stage (Builder): Base Image
+# Stage 1: Builder — Build the `Application`
 # =======================================================================================
-FROM alpine:latest AS builder
+FROM rust:latest AS builder
 
-# Install prerequisites for building Rust
-RUN apk add --no-cache wget curl bash gcc libc-dev
-
-# Install Rust using Rustup
-RUN wget https://sh.rustup.rs -O rustup-init.sh && \
-    chmod +x rustup-init.sh && \
-    ./rustup-init.sh -y && \
-    rm rustup-init.sh
-
-# Add Rust to PATH
-ENV PATH="/root/.cargo/bin:$PATH"
-
-# Copy your Rust source code into the builder image
+# Set the working directory for the build process
 WORKDIR /usr/src/app
+
+# Copy the entire project into the container
 COPY . .
 
-# Build your Rust project (release mode for optimized binary)
-RUN cargo build --release 
+# Add the MUSL target for static linking
+RUN rustup target add x86_64-unknown-linux-musl
+
+# Install necessary tools for MUSL cross-compilation
+RUN apt-get update && apt-get install -y musl-tools
+
+# Compile the Rust project in release mode for optimized performance
+RUN cargo build --release --target x86_64-unknown-linux-musl
 
 # =======================================================================================
-# Stage (Runtime): Apps Image
+# Stage 2: Runtime — Create a minimal image for the `Application`
 # =======================================================================================
-FROM alpine:latest
+FROM scratch
 
-# Install dependencies needed for running Rust applications
-RUN apk add --no-cache libc6-compat
+# Copy the statically compiled binary from the builder stage into the runtime image
+COPY --from=builder /usr/src/app/target/x86_64-unknown-linux-musl/release/rust_docker /app
 
-# Copy the built Rust binary from the builder stage
-COPY --from=builder /usr/src/app/target/release/rust_docker .
-
-# =======================================================================================
-# Stage (Clean-Up): Remove unnecessary files in the runtime image
-# =======================================================================================
-RUN rm -rf /usr/share/man /usr/share/doc /usr/share/info /tmp/* /var/cache/apk/* /root/.cache/* /var/log/*
-
-# =======================================================================================
-# Start App
-# =======================================================================================
-
-# Set the command to run the binary (replace with your binary name)
-CMD ["./rust_docker"]
+# Specify the command to execute the binary when the container runs
+CMD ["/app"]
