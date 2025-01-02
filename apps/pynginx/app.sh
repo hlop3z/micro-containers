@@ -59,7 +59,7 @@ docker_build(){
     docker build -t $1:latest . && docker save $1:latest | gzip > build/container.tar.gz
 }
 docker_runner(){
-    docker run -p 8080:80 --rm $1:latest
+    docker run -p 8080:80 -p 8000:8000 --rm $1:latest
 }
 
 
