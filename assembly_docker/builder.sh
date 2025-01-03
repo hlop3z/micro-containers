@@ -56,7 +56,7 @@ CLI() {
 docker_build(){
     rm -rf build/
     mkdir build/
-    docker build -t $1:latest . && docker save $1:latest | gzip > build/container.tar.gz
+    docker build -t $1:latest . && docker save $1:latest | gzip > build/image.gz
 }
 docker_runner(){
     docker run -p 8080:80 --rm $1:latest 
